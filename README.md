@@ -14,6 +14,9 @@
 https://movie-app-motphim.com
 
 ## Movie Web 
+### Sơ đồ tính năng
+![image](https://github.com/tvdat20004/NT208.O21.ANTN_MovieWeb/assets/117071011/a222158b-44ea-4f2e-a57b-7d7ff6399448)
+
 ### Đăng kí 
 Ta sẽ tiến hành đăng kí dữ liệu với xác thực 2 bước với gmail vì nếu người dùng mất mật khẩu thì có thể gửi xác thực lại bằng gmail
 
@@ -183,3 +186,18 @@ Ta sẽ được quản lí và tạo các list phim bằng cách gộp các b�
 
 
 ![image](https://i.postimg.cc/BZ2Cdxmh/Screenshot-2024-05-31-005945.png)
+
+## Các tiêu chí cộng điểm
+- Video youtube giữa kì: [Link Here](https://www.youtube.com/watch?v=UxudjfoKlZc)
+- Test trên Pagespeed
+
+
+![image](https://github.com/tvdat20004/NT208.O21.ANTN_MovieWeb/assets/117071011/2bd71d98-9010-44fa-9ece-c28f8f9391c9)
+
+
+![image](https://github.com/tvdat20004/NT208.O21.ANTN_MovieWeb/assets/117071011/605743aa-6a27-4a0f-8db1-f0ab7ad016b3)
+- Mua domain trên Hostinger, host web bằng AWS và custom domain từ Hostinger sang AWS
+
+
+![image](https://github.com/tvdat20004/NT208.O21.ANTN_MovieWeb/assets/117071011/ca465ae9-875f-4228-9bc0-eb5541f38d8a)
+
