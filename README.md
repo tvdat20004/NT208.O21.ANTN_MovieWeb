@@ -1,11 +1,19 @@
-# Movie web
-
-Thành viên: 
+## Thành viên: 
 - Nguyễn Nhật Anh - 22520059
 - Thái Vĩnh Đạt - 22520235
 - Đinh Lê Thành Công - 22520167
 
-## Movie Web
+| Thành viên         | MSSV     | Công việc                            |
+| ------------------ | -------- | ------------------------------------ |
+| Nguyễn Nhật Anh    | 22520059 | Movie frontend (40%)                 |
+| Thái Vĩnh Đạt      | 22520235 | Backend NodeJs (30%)                 |
+| Đinh Lê Thành Công | 22520167 | Admin frontend, backend python (30%) |
+
+
+## Domain name:
+https://movie-app-motphim.com
+
+## Movie Web 
 ### Đăng kí 
 Ta sẽ tiến hành đăng kí dữ liệu với xác thực 2 bước với gmail vì nếu người dùng mất mật khẩu thì có thể gửi xác thực lại bằng gmail
 
