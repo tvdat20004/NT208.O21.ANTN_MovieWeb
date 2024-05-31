@@ -4,6 +4,7 @@ import { AuthContext } from "../authContext/AuthContext";
 import { Link } from "react-router-dom";
 import { FaLock } from 'react-icons/fa'
 import {SiGmail} from 'react-icons/si'
+import Toastify from 'toastify-js';
 import "./login.scss";
 
 export default function Login() {
@@ -14,6 +15,7 @@ export default function Login() {
     const handleLogin = (e) => {
         e.preventDefault();
         login({ email, password }, dispatch);
+        
     };
     return (
         <div className="login">
@@ -60,6 +62,16 @@ export default function Login() {
                                         Register
                                     </Link>
                                     
+                                </a>
+                            </p>
+                        </div>
+
+                        <div className="register-link">
+                            <p>Login by FACE ?
+                                <a href="#">
+                                    <Link to="/loginAI">
+                                        Login
+                                    </Link>
                                 </a>
                             </p>
                         </div>

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Button from '../button/Button';
 const MovieCard = props => {
   const [movie, setMovie] = useState();
+
   useEffect(() => {
     const getMovie = async () => {
       try {
@@ -15,16 +16,18 @@ const MovieCard = props => {
             }
           }
         );
-
         setMovie(res.data);
       }
       catch (err) {
         console.log(err)
       }
     }
-    getMovie();
+    if(props.id !== undefined) {
+      getMovie();
+    }
   }, [props]);
-  const link = '/flim/' + props.id;
+  const link = '/flim/' +  movie?.Slug;
+  
   return (
     <div>
       <Link to={link}>

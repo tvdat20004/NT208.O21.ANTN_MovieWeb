@@ -68,7 +68,7 @@ const HeroSlideItem = props => {
                 <div className="hero-slide__item__content__info">
                     <h2 className="title">{item.title}</h2>
                     <div className="overview">{item.desc}</div>
-                    <Button onClick={() => navigate('/flim/' + item._id)}>
+                    <Button onClick={() => navigate('/flim/' + item.Slug)}>
                             Watch now
                     </Button>
                 </div>

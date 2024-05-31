@@ -12,6 +12,9 @@ import Register from './pages/register/Register';
 import Login from './pages/login/Login';
 import { Navigate } from 'react-router-dom'
 import ForgotPassword from './pages/forgotPassword/ForgotPassword';
+import Profile from './pages/profile/Profile';
+import FaceLogin from './pages/faceLogin/FaceLogin';
+import BuyPackage from './pages/BuyPackage/BuyPackage';
 function App() {
   const { user } = useContext(AuthContext);
   return (
@@ -30,11 +33,16 @@ function App() {
         <Route exact path='/newPassword' element={
           !user ? <ForgotPassword /> : <Navigate to="/" />}
         />
+
+        <Route exact path='/loginAI' element={
+          !user ? <FaceLogin /> : <Navigate to="/" />}
+        />
         <Route path='/:category/search/:keyword' element={<Catalog />} />
         <Route path='/:category/:type' element={<Catalog />} />
         <Route path='/:category' element={<Catalog />} />
-        <Route path='/flim/:id' element={<Detail />} />
-
+        <Route path='/flim/:Slug' element={<Detail />} />
+        <Route path="/profile" element={<Profile/>}/>
+        <Route path='/buyPackage' element={<BuyPackage/>}/>
 
       </Routes>
     </BrowserRouter>

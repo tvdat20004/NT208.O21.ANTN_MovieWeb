@@ -19,7 +19,7 @@ const FilterSearch = props => {
         }
         getInfo();
     }, [props])
-    const link = '/flim/' + props.id;
+    const link = '/flim/' + info.Slug;
     return (
         <Link to={link}>
             <div class="product" >

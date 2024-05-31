@@ -26,7 +26,9 @@ const Rating = props => {
                 console.log(err)
             }
         }
-        getRating();
+        if(movieId !== undefined) {
+            getRating();
+        }
     }, [movieId,userId]);
     useEffect(() => {
         const newRating = async () => {

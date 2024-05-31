@@ -31,7 +31,6 @@ const Catalog = () => {
     };
     getRandomLists();
   }, [type, isSeries]);
-  console.log(movies)
   return (
     <div>
       <Header/>

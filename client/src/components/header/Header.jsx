@@ -1,9 +1,9 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useContext } from 'react';
 
 import { Link, useLocation } from 'react-router-dom';
-
+import { AuthContext } from '../../pages/authContext/AuthContext';
 import './header.scss';
-import pic from "../../assets/pic.jpeg"
+import pic from "../../assets/png1.png"
 import logo from '../../assets/logo.png';
 
 const headerNav = [
@@ -25,9 +25,9 @@ const Header = () => {
 
     const { pathname } = useLocation();
     const headerRef = useRef(null);
-
+    const { user } = useContext(AuthContext);
     const active = headerNav.findIndex(e => e.path === pathname);
-
+    
     useEffect(() => {
         const shrinkHeader = () => {
             if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
@@ -62,8 +62,10 @@ const Header = () => {
                         ))
                     }
                     <div className="logo">
-                    <img src={pic} alt="" />
-                    <Link to="/"></Link>
+                    
+                    <Link to="/profile">
+                    <img src={user.profilePic || pic} alt="" />
+                    </Link>
                     </div>
                 </ul>
                 

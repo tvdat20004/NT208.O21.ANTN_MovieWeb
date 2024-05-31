@@ -5,7 +5,7 @@ import { SiGmail } from 'react-icons/si'
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom'
 import "./register.scss";
-
+import Toastify from 'toastify-js';
 export default function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -28,6 +28,15 @@ export default function Register() {
         } catch (err) {
             console.log(err);
         }
+        Toastify({
+            text: 'Đăng kí  thành công',
+            style: {
+              background: "linear-gradient(to right, #00b09b, #96c93d)",
+              display : "flex",
+              justifyContent: "center",  // Căn giữa theo chiều ngang
+              alignItems: "center",
+            },
+          }).showToast();
     };
     return (
         <div className="login">
@@ -69,6 +78,17 @@ export default function Register() {
                             <p>Have an account ?
                                 <a href="#">
                                     <Link to="/login">
+                                        Login
+                                    </Link>
+                                </a>
+                            </p>
+                        </div>
+                        
+
+                        <div className="register-link">
+                            <p>Login by FACE ?
+                                <a href="#">
+                                    <Link to="/loginAI">
                                         Login
                                     </Link>
                                 </a>
