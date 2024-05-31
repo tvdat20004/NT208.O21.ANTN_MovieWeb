@@ -28,7 +28,7 @@ router.post("/register", async (req, res) => {
     });
 
 
-    const verificationLink =  `https://nodejs-server-1-o4q8.onrender.com/api/auth/verifyEmail?token=${token}`;
+    const verificationLink =  `https://jsserver-pi25.onrender.com/api/auth/verifyEmail?token=${token}`;
     let mailOptions = {
         from: process.env.MAIL_FROM,
         to: newUser.email,
@@ -70,7 +70,7 @@ router.post("/forgotPassword", async (req, res) => {
             expiresIn: "1h",
         });
 
-        const verificationLink = `https://nodejs-server-1-o4q8.onrender.com/api/auth/resetPassword?token=${token}&newPassword=${req.body.password}`;
+        const verificationLink = `https://jsserver-pi25.onrender.com/api/auth/resetPassword?token=${token}&newPassword=${req.body.password}`;
         let mailOptions = {
             from: process.env.MAIL_FROM,
             to: req.body.email,
@@ -142,18 +142,18 @@ router.post("/login", async (req, res) => {
         })
 
         if (!user) {
-            res.status(401).json("Wrong password or username!")
+            return res.status(401).json("Wrong password or username!")
         }
         const bytes = CryptoJS.AES.decrypt(user.password, process.env.SECRET_KEY);
         const originalPassword = bytes.toString(CryptoJS.enc.Utf8);
         
         if (originalPassword !== req.body.password) {
-            res.status(401).json("Wrong password or username!")
+            return res.status(401).json("Wrong password or username!")
         }
 
         
         if (user.verify !== true) {
-            res.status(500).json("You don't authetication");
+            return res.status(500).json("You don't authetication");
         }
     
         const accessToken = jwt.sign(
@@ -167,6 +167,25 @@ router.post("/login", async (req, res) => {
         res.status(200).json({ ...info, accessToken })
     } catch (err) {
         res.status(500).json(err)
+    }
+})
+
+router.post("/loginAI", async (req, res) => {
+    try {
+        const user = await User.findOne({
+            email: req.body.email
+        })
+        const accessToken = jwt.sign(
+            { id: user._id, isAdmin: user.isAdmin },
+            process.env.SECRET_KEY,
+            { expiresIn: "100d" }
+        )
+        
+        const { password, ...info } = user._doc;
+
+        res.status(200).json({ ...info, accessToken });
+    } catch(err) {
+        res.status(500).json(err);
     }
 })
 module.exports = router;

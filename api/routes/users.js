@@ -1,35 +1,46 @@
 const router = require("express").Router();
-const { response } = require("express");
 const User = require("../models/User");
 const Movie = require("../models/Movie")
 const CryptoJS = require("crypto-js");
 const verify = require("../verifyToken")
 //Update ACCOUNT
-router.put("/:id", verify, async (req, res) => {
-    if (req.user.id === req.params.id || req.user.isAdmin) {
-        if (req.body.password) {
-            req.body.password = CryptoJS.AES.encrypt(
-                req.body.password,
+
+router.put("/change/:id", verify, async (req, res) => {
+    try {
+        const oldUser = await User.findById(req.params.id);
+        let password = oldUser.password;
+        if(req.body.password.length !== 0) {
+            const newPassword = req.body.password;
+            const encryptionPassWord = CryptoJS.AES.encrypt(
+                newPassword,
                 process.env.SECRET_KEY
             ).toString();
+            password = encryptionPassWord;
         }
-
-        try {
-            const updatedUser = await User.findByIdAndUpdate(
-                req.params.id,
-                {
-                    $set: req.body,
-                },
-                { new: true }
-            );
-            res.status(200).json(updatedUser);
-        } catch (err) {
-            res.status(500).json(err);
-        }
-    } else {
-        res.status(403).json("You can update only your account!");
+        let updateData = {
+            username: req.body.username || oldUser.username,
+            profilePic: req.body.profilePic || oldUser.profilePic,
+            age: req.body.age || oldUser.age,
+            city: req.body.city || oldUser.city,
+            password : password,
+            emai: oldUser.email,
+            verify: oldUser.verify,
+            FavouriteMovie: oldUser.FavouriteMovie,
+            isAdmin: oldUser.isAdmin
+        };
+        
+        const updateUser = await User.findByIdAndUpdate(
+            req.params.id,
+            { $set: updateData },
+            { new: true }
+        )
+        res.status(200).json(updateUser);
+       
+    } catch(err) {
+        res.status(500).json(err);  
     }
-});
+})
+
 //Delete Account 
 router.delete("/:id", verify, async (req, res) => {
     if (req.user.id === req.params.id || req.user.isAdmin) {
@@ -96,6 +107,14 @@ router.get("/stats", async (req, res) => {
     }
 });
 
+router.get("/getAll", async (req, res) => {
+    try {
+        const user = await User.find().sort({ _id : -1});
+        res.status(200).json(user);
+    } catch(err) {
+        res.status(500).json(err);
+    }
+})
 router.post("/new/:id", verify, async (req, res) => {
     try {
         const user = await User.findById(req.params.id)
@@ -122,6 +141,8 @@ router.post("/new/:id", verify, async (req, res) => {
         res.status(500).json(err)
     }
 })
+
+
 
 router.post("/listMovie/:id", verify , async(req,res) => {
     try {
@@ -157,6 +178,36 @@ router.delete("/delete/:id", verify, async(req, res) => {
         res.status(200).json(updatedUser);
     } catch(err) {
         res.status(500).json(err);
+    }
+})
+
+router.post("/info/:id", verify, async(req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        
+        const movie = await Movie.findById(req.body.MovieID);
+        if(movie.isFree === true) {
+            return res.status(200).json(true);
+        }
+        if(user.BuyPackage === false) {
+            return res.status(200).json(false);
+            
+        }
+        
+        const timestamp = new Date();
+        if(user.ExpireDate === undefined || user.ExpireDate === null) {
+            return res.status(200).json(false);
+        }
+        const lastBuy = new Date(user.ExpireDate);
+        
+        if(timestamp < lastBuy) {
+            return res.status(200).json(true);
+        }
+        else {
+            res.status(200).json(false)
+        }  
+    } catch(err) {
+        res.status(403).json(err);
     }
 })
 module.exports = router

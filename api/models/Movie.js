@@ -13,7 +13,9 @@ const MovieSchema = new mongoose.Schema(
         genre: { type: String },
         isSeries: { type: Boolean, default: false },
         View : {type: Number, default: 0},
-        Comment: {type: Array}
+        Comment: {type: Array},
+        Slug : {type: String},
+        isFree: {type:Boolean, default: false}
       },
       { timestamps: true }
 )

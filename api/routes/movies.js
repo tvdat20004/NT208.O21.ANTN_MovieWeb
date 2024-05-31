@@ -5,11 +5,14 @@ const verify = require("../verifyToken")
 router.post("/", verify, async (req, res) => {
     if (req.user.isAdmin) {
         const newMovie = new Movie(req.body);
+        const newSlug = req.body.title.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9 -]/g, '').trim().replace(/\s+/g, '-').toLowerCase();  
+        newMovie.Slug = newSlug;
         try {
             const SavedMovie = await newMovie.save();
             res.status(200).json(SavedMovie);
 
         } catch (err) {
+
             res.status(500).json(err);
         }
     }
@@ -41,6 +44,7 @@ router.delete("/:id", verify, async (req, res) => {
             await Movie.findByIdAndDelete(req.params.id);
             res.status(200).json("The movie has been deleted...");
         } catch (err) {
+            
             res.status(500).json(err);
         }
     } else {
@@ -49,13 +53,37 @@ router.delete("/:id", verify, async (req, res) => {
 });
 
 
+
+
 //Find the movie 
 router.get("/find/:id", verify, async (req, res) => {
-
     try {
         const movie = await Movie.findById(req.params.id);
         res.status(200).json(movie);
+        
     } catch (err) {
+        res.status(500).json(err);
+    }
+})
+
+router.get("/findName/:Slug" , verify, async (req, res) => {
+    try {
+        const movie = await Movie.aggregate([
+            { $match: { Slug: req.params.Slug } },
+            
+        ]);
+        res.status(200).json(movie[0]);
+    } catch(err) {
+        res.status(500).json(err);
+    }
+})
+
+router.get("/changeSlug/:Slug", verify, async(req, res) => {
+    try {
+        const name = req.params.Slug;
+        const newSlug = name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9 -]/g, '').trim().replace(/\s+/g, '-').toLowerCase();  
+        res.status(200).json(newSlug); 
+    } catch(err) {
         res.status(500).json(err);
     }
 })
@@ -182,12 +210,14 @@ router.get("/interactive/get/:id", verify , async(req,res) => {
         const data = await Movie.findById(req.params.id);
         res.status(200).json(data.Comment)
     } catch(err) {
+
         res.status(500).json(err)
     }
 })
 
 router.get("/view/mostView", verify, async(req,res) => {
     try {
+        
         const movies = await Movie.find().sort({View : -1}).limit(10);
         res.status(200).json(movies);
     } catch(err) {

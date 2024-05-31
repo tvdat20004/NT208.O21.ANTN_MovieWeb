@@ -8,7 +8,11 @@ const UserSchema = new mongoose.Schema(
       profilePic: { type: String, defaut: "" },
       isAdmin: { type: Boolean, default: false },
       verify: { type: Boolean, default: false },
-      FavouriteMovie: {type : Array}
+      FavouriteMovie: {type : Array},
+      age: {type: String},
+      city: { type: String },
+      BuyPackage: {type: Boolean, default: false},
+      ExpireDate: {type: String},
     },
     { timestamps: true }
 );
